@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="574.0" prefWidth="761.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="epn.esfot.proyectofinallibreria.LibroController">
+   <children>
+      <TableView fx:id="tblLibros" layoutX="29.0" layoutY="246.0" prefHeight="212.0" prefWidth="713.0">
+        <columns>
+          <TableColumn fx:id="colId" prefWidth="44.800048828125" text="ID" />
+          <TableColumn fx:id="colTitulo" prefWidth="88.79998779296875" text="TÍTULO" />
+            <TableColumn fx:id="colAutor" text="AUTOR" />
+            <TableColumn fx:id="colEditorial" prefWidth="83.20001220703125" text="EDITORIAL" />
+            <TableColumn fx:id="colAnio" prefWidth="69.5999755859375" text="AÑO PUBLICACIÓN" />
+            <TableColumn fx:id="colPaginas" prefWidth="83.20001220703125" text="NUM PÁGINAS" />
+            <TableColumn fx:id="colDisponibilidad" prefWidth="78.4000244140625" text="DISPONIBILIDAD" />
+            <TableColumn fx:id="colFormato" prefWidth="81.5999755859375" text="FORMATO" />
+            <TableColumn fx:id="colCategoria" prefWidth="111.199951171875" text="CATEGORÍA" />
+        </columns>
+      </TableView>
+      <Label layoutX="285.0" layoutY="14.0" text="Gestión de Librería ">
+         <font>
+            <Font name="Calisto MT" size="25.0" />
+         </font>
+      </Label>
+      <Label layoutX="542.0" layoutY="64.0" text="Título:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="75.0" layoutY="85.0" text="Título:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="75.0" layoutY="120.0" text="Autor:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="340.0" layoutY="121.0" text="Año publicación:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="340.0" layoutY="157.0" text="Num. páginas">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="76.0" layoutY="157.0" text="Editorial:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <RadioButton fx:id="rbDisponible" layoutX="581.0" layoutY="157.0" mnemonicParsing="false" text="Disponible">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </RadioButton>
+      <Label layoutX="78.0" layoutY="196.0" prefHeight="20.0" prefWidth="103.0" text="Formato: ">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="cmbFormat" layoutX="146.0" layoutY="194.0" prefHeight="25.0" prefWidth="149.0" />
+      <Button fx:id="btnMostrar" layoutX="485.0" layoutY="476.0" mnemonicParsing="false" text="👁 MOSTRAR" onAction="#listarTodos" />
+      <Button fx:id="btnLimpiar" layoutX="596.0" layoutY="476.0" mnemonicParsing="false" text="✨ LIMPIAR" onAction="#limpiar" />
+      <Button fx:id="btnActualizar" layoutX="256.0" layoutY="476.0" mnemonicParsing="false" text="🔄 ACTUALIZAR" onAction="#actualizarLibro"/>
+      <Button fx:id="btnEliminar" layoutX="385.0" layoutY="476.0" mnemonicParsing="false" text="🗑 ELIMINAR" onAction="#eliminarLibro" />
+      <Button fx:id="btnAgregar" layoutX="137.0" layoutY="476.0" mnemonicParsing="false" text="➕ AGREGAR" onAction="#crearLibro" />
+      <Button fx:id="btnRergresar" layoutX="32.0" layoutY="527.0" mnemonicParsing="false" text="⬅ REGRESAR" />
+      <Button fx:id="btnBuscar" layoutX="670.0" layoutY="61.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="72.0" text="🔍BUSCAR" onAction="#buscarTitulo" />
+      <TextField fx:id="txtTituloBuscado" layoutX="584.0" layoutY="61.0" prefHeight="25.0" prefWidth="72.0" />
+      <TextField fx:id="txtTitle" layoutX="138.0" layoutY="82.0" prefHeight="25.0" prefWidth="157.0" />
+      <TextField fx:id="txtAutor" layoutX="138.0" layoutY="118.0" prefHeight="25.0" prefWidth="157.0" />
+      <TextField fx:id="txtEditorial" layoutX="138.0" layoutY="155.0" prefHeight="25.0" prefWidth="157.0" />
+      <TextField fx:id="txtYear" layoutX="453.0" layoutY="118.0" prefHeight="25.0" prefWidth="87.0" />
+      <TextField fx:id="txtPag" layoutX="451.0" layoutY="155.0" prefHeight="25.0" prefWidth="91.0" />
+      <Label layoutX="340.0" layoutY="197.0" text="Categoría">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="cmbCategory" layoutX="414.0" layoutY="194.0" prefHeight="25.0" prefWidth="126.0" />
+      <Accordion />
+   </children>
+</Pane>
