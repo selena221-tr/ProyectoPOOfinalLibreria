@@ -13,7 +13,7 @@ public class ServicioCliente {
   @Autowired
   ClienteRepository clienteRepository;
 
-  public Optional<Cliente> buscarNombre(String nombre){
+  public Cliente buscarNombre(String nombre){
     return  clienteRepository.findByNombre(nombre);
   }
 
