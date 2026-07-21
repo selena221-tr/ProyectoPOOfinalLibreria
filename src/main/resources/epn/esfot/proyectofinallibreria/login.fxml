@@ -35,11 +35,12 @@
     <ComboBox fx:id="cmbRol" layoutX="300.0" layoutY="267.0" prefWidth="150.0" />
     <TextField fx:id="txtUser" layoutX="301.0" layoutY="165.0" />
     <PasswordField fx:id="pwsPassword" layoutX="301.0" layoutY="216.0" />
-    <Button fx:id="btnLogin" layoutX="256.0" layoutY="345.0" mnemonicParsing="false" text="Iniciar Sesión" onAction="#validar" />
+    <Button fx:id="btnLogin" layoutX="185.0" layoutY="346.0" mnemonicParsing="false" onAction="#validar" text="Iniciar Sesión" />
     <Label layoutX="190.0" layoutY="106.0" text="Sistema de Gestión de librería" textOverrun="CLIP">
       <font>
         <Font name="Calibri Light" size="18.0" />
       </font>
     </Label>
+      <Button fx:id="btnRegistrarse" layoutX="331.0" layoutY="346.0" mnemonicParsing="false" text="Registrarse" onAction="#registrarUsuario"/>
   </children>
 </Pane>
