@@ -1,16 +1,16 @@
 package epn.esfot.proyectofinallibreria;
 
 import epn.esfot.proyectofinallibreria.modelo.Cliente;
+import epn.esfot.proyectofinallibreria.modelo.ClienteRepository;
+import epn.esfot.proyectofinallibreria.modelo.LibroRepository;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -29,6 +29,8 @@ public class LoginController {
   @FXML ComboBox<String> cmbRol;
   @FXML TextField txtUser;
   @FXML PasswordField pwsPassword;
+  @FXML Button btnRegistrarse;
+  @FXML Button btnLogin;
 
   @FXML
   public void initialize() {
@@ -89,5 +91,38 @@ public class LoginController {
         mostrarAlerta(Alert.AlertType.ERROR, "Error", "El usuario no existe");
       });
 
+  }
+
+  @FXML
+  public void registrarUsuario(){
+    if (!txtUser.getText().isEmpty() && !pwsPassword.getText().isEmpty() && !cmbRol.getValue().isEmpty()) {
+      if (!cmbRol.getValue().equals("Administrador")){
+        Cliente cI = new Cliente(
+                txtUser.getText(),
+                BCrypt.hashpw(pwsPassword.getText(), BCrypt.gensalt()),
+                cmbRol.getValue()
+        );
+
+        servicioCliente.registrarCliente(cI);
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("USUARIO NUEVO");
+        alert.setHeaderText("Validando el registro del nuevo usuario...");
+        alert.setContentText("Usuario registrado correctamente!");
+        alert.show();
+      } else{
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("ERROR ROL ADMINISTRADOR");
+        alert.setHeaderText("Error, no se pueden registrar usuarios con el rol 'Administrador'!");
+        alert.setContentText("Verifica el rol e intentalo de nuevo");
+        alert.show();
+      }
+    } else{
+      Alert alert = new Alert(Alert.AlertType.INFORMATION);
+      alert.setTitle("ERROR CAMPOS VACIOS");
+      alert.setHeaderText("Error, no se pueden registrar usuarios sin datos!");
+      alert.setContentText("Verifica que todos los campos esten llenos e intentalo de nuevo");
+      alert.show();
+    }
   }
 }
