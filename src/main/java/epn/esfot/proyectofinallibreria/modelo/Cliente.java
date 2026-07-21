@@ -3,7 +3,7 @@ package epn.esfot.proyectofinallibreria.modelo;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "clientes")
+@Table(name = "usuarios")
 public class Cliente {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
