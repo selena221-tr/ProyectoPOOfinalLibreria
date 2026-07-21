@@ -16,4 +16,8 @@ public class ServicioCliente {
   public Optional<Cliente> buscarNombre(String nombre){
     return  clienteRepository.findByNombre(nombre);
   }
+
+  public Cliente registrarCliente(Cliente cR){
+    return clienteRepository.save(cR);
+  }
 }
