@@ -6,9 +6,12 @@ USE libreria;
 CREATE TABLE usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
-    contrasena VARCHAR(255) NOT NULL,
+    contrasenia VARCHAR(255) NOT NULL,
     rol varchar(255) NOT NULL
 );
+
+INSERT INTO usuarios(nombre, contrasenia, rol) VALUES
+("admin", "$2a$10$MxMJhXf3X1fZXfPCdowwPuTlzZCBWU6gkU4vunSBD2ya9Y3zVEjTm", "Administrador");
 
 
 -- Tabla libros
@@ -30,21 +33,14 @@ INSERT INTO libros
 (titulo, autor, editorial, formato, categoria, anio_publicacion, numero_paginas, disponibilidad)
 VALUES
 ('El Principito', 'Antoine de Saint-Exupéry', 'Salamandra', 'Físico', 'Infantil', 1943, 96, true),
-
 ('Cien años de soledad', 'Gabriel García Márquez', 'Sudamericana', 'Digital', 'Novela', 1967, 471, true),
-
 ('Don Quijote de la Mancha', 'Miguel de Cervantes', 'Espasa', 'Físico', 'Clásico', 1605, 863, false),
-
 ('1984', 'George Orwell', 'Debolsillo', 'Digital', 'Ciencia ficción', 1949, 328, true),
-
 ('Harry Potter y la piedra filosofal', 'J. K. Rowling', 'Salamandra', 'Físico', 'Fantasía', 1997, 320, true),
-
 ('La Odisea', 'Homero', 'Gredos', 'Físico', 'Épica', -700, 560, false),
-
 ('Orgullo y prejuicio', 'Jane Austen', 'Penguin', 'Digital', 'Romance', 1813, 432, true),
-
 ('El Hobbit', 'J. R. R. Tolkien', 'Minotauro', 'Físico', 'Fantasía', 1937, 310, true),
-
 ('Crónica de una muerte anunciada', 'Gabriel García Márquez', 'Norma', 'Digital', 'Novela', 1981, 144, true),
-
 ('Los juegos del hambre', 'Suzanne Collins', 'Molino', 'Físico', 'Ciencia ficción', 2008, 374, false);
+
+
