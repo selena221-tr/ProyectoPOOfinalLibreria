@@ -62,9 +62,12 @@ public class LoginController {
       return;
     }
 
-    servicioCliente.buscarNombre(txtUser.getText()).ifPresentOrElse(cliente -> {
+    Cliente cEncontrado = servicioCliente.buscarNombre(txtUser.getText());
 
-        if (cliente.getContrasenia().equals(pwsPassword.getText()) && cliente.getRol().equalsIgnoreCase(cmbRol.getValue())) {
+        if (cEncontrado != null
+            && BCrypt.checkpw(pwsPassword.getText(), cEncontrado.getContrasenia())
+            && cEncontrado.getRol().equalsIgnoreCase(cmbRol.getValue())
+        ){
           mostrarAlerta(Alert.AlertType.INFORMATION, "Correcto", "Inicio de sesión exitoso");
           try {
             FXMLLoader loader = new FXMLLoader(
@@ -87,10 +90,6 @@ public class LoginController {
         } else {
           mostrarAlerta(Alert.AlertType.ERROR, "Error", "Contraseña o rol incorrectos");
         }
-      }, () -> {
-        mostrarAlerta(Alert.AlertType.ERROR, "Error", "El usuario no existe");
-      });
-
   }
 
   @FXML
