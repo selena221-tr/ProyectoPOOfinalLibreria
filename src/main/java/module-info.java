@@ -14,4 +14,5 @@ open module epn.esfot.proyectofinallibreria {
   exports epn.esfot.proyectofinallibreria;
   requires org.hibernate.orm.core;
     requires org.apache.tomcat.embed.core;
+    requires jbcrypt;
 }
