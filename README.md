@@ -1,47 +1,41 @@
-# Sistema de Gestión de Librería y Reserva de Libros
+# Sistema de Gestión de Librería
 
-## Descripción General
-Esta aplicación es un sistema de escritorio diseñado para la administración de catálogos bibliográficos y la gestión de reservas de libros en tiempo real. Fue desarrollada aplicando el paradigma de Programación Orientada a Objetos (POO) en Java, utilizando JavaFX para el diseño de la interfaz gráfica de usuario y Spring Boot para la lógica de negocio y la persistencia de datos en MySQL.
+Aplicación de escritorio en Java para administrar el catálogo de una librería y gestionar reservas de libros, con inicio de sesión y permisos según el rol del usuario.
 
----
+## Tecnologías
 
-## Tecnologías Utilizadas
+- **Java** + **JavaFX** (interfaz gráfica)
+- **Spring Boot** + **Spring Data JPA / Hibernate** (lógica y persistencia)
+- **MySQL** (base de datos)
+- **BCrypt** (encriptar contraseñas)
+- **Maven** (gestión de dependencias)
 
-* Lenguaje de Programación: Java 17 o superior
-* Interfaz Gráfica: JavaFX 26 respaldada por archivos FXML y hojas de estilo CSS
-* Framework Backend: Spring Boot con Spring Data JPA
-* Base de Datos: MySQL Server
-* Seguridad de Credenciales: Encriptación de contraseñas mediante el algoritmo BCrypt
-* Gestión de Dependencias: Apache Maven
+## Roles del sistema
 
----
+| Rol | Puede hacer |
+|---|---|
+| **Administrador** | Crear, editar, eliminar y ver todos los libros. Ver quién tiene reservado cada libro. No puede reservar. |
+| **Cliente** | Ver el catálogo, buscar por título y **reservar** libros disponibles. No puede crear/editar/eliminar. |
+| **Invitado** | Solo ver el catálogo y buscar por título. Entra sin necesidad de registrarse. |
 
-## Control de Acceso Basado en Roles (RBAC)
+## Cómo ejecutar el proyecto
 
-La interfaz y las funcionalidades del sistema se adaptan dinámicamente según el nivel de acceso del usuario autenticado:
+1. Clonar el repositorio.
+2. Tener MySQL corriendo y ejecutar el script de la base de datos (ver abajo).
+3. En `src/main/resources/application.properties`, configurar tu conexión:
+   ```properties
+   spring.datasource.url=jdbc:mysql://localhost:3306/libreria?useSSL=false&serverTimezone=UTC
+   spring.datasource.username=root
+   spring.datasource.password=tu_contrasenia
+   spring.jpa.hibernate.ddl-auto=update
+   ```
+4. Ejecutar la clase `Launcher.java`.
+5. Iniciar sesión con el usuario ya cargado por el script:
+   - Usuario: `admin` — Rol: `Administrador` — Contraseña: `admin` *(ajusta si tu compañera usó otra)*
 
-1. Rol Administrador:
-   * Cuenta con acceso total al inventario de la librería.
-   * Habilitado para crear, consultar, actualizar y eliminar registros de libros.
-   * Permite supervisar la columna de usuarios para identificar qué cliente mantiene reservado cada ejemplar.
-   * Mantiene restringida la función de reserva directa de libros.
+## Base de datos
 
-2. Rol Cliente:
-   * Permite la visualización del catálogo completo de libros.
-   * Habilitado exclusivamente para realizar reservas de ejemplares que se encuentren disponibles.
-   * Mantiene bloqueados los campos del formulario y deshabilitados los botones de modificación, creación o eliminación de registros.
-
-3. Rol Invitado:
-   * Modalidad de acceso rápido para consulta pública sin requerir credenciales.
-   * Permite realizar búsquedas por título y examinar el catálogo.
-   * Mantiene deshabilitada cualquier opción de reserva o alteración de datos.
-
----
-
-## Estructura de la Base de Datos
-
-A continuación se detalla el script SQL necesario para la creación del esquema relacional y la inserción de los datos iniciales de la aplicación:
-
+```sql
 CREATE DATABASE IF NOT EXISTS libreria;
 USE libreria;
 
@@ -77,51 +71,32 @@ INSERT INTO libros (titulo, autor, editorial, formato, categoria, anio_publicaci
 ('Orgullo y prejuicio', 'Jane Austen', 'Penguin', 'Digital', 'Romance', 1813, 432, true),
 ('El Hobbit', 'J. R. R. Tolkien', 'Minotauro', 'Físico', 'Fantasía', 1937, 310, true),
 ('Crónica de una muerte anunciada', 'Gabriel García Márquez', 'Norma', 'Digital', 'Novela', 1981, 144, true);
+```
 
----
+> ⚠️ Nota: la columna `usuario_id` en `libros` es necesaria porque un libro reservado queda vinculado al usuario que lo reservó.
 
-## Organización del Proyecto
+## Estructura del código
 
-src/
-  main/
-    java/epn/esfot/proyectofinallibreria/
-      modelo/
-        Libro.java: Entidad JPA que representa la tabla de libros.
-        Usuario.java: Entidad JPA que representa la tabla de usuarios.
-        LibroRepository.java: Interfaz de persistencia para operaciones en la tabla de libros.
-        UsuarioRepository.java: Interfaz de persistencia para consultas de usuarios.
-      Servicio.java: Capa de servicio encargada de la lógica de negocio del catálogo de libros.
-      ServicioCliente.java: Capa de servicio encargada de la validación y registro de usuarios.
-      LoginController.java: Controlador encargado de la vista de autenticación y registros.
-      LibroController.java: Controlador de la vista principal, encargado de la tabla, permisos y reservas.
-      SpringBootConfig.java: Clase de configuración de Spring Boot.
-      HelloApplication.java: Clase encarga de vincular el ciclo de vida de JavaFX con el contexto de Spring.
-      Launcher.java: Punto de entrada principal para la ejecución del programa.
-    resources/epn/esfot/proyectofinallibreria/
-      login.fxml: Definición de la interfaz gráfica de inicio de sesión.
-      libreria.fxml: Definición de la interfaz gráfica de gestión y consulta de libros.
-      estilos.css: Hoja de estilos para la presentación visual de las vistas FXML.
+```
+epn.esfot.proyectofinallibreria/
+├── HelloApplication.java     → arranque de JavaFX + Spring
+├── Launcher.java             → punto de entrada del programa
+├── SpringBootConfig.java     → configuración de Spring Boot
+├── LoginController.java      → login, registro y sesión de invitado
+├── LibroController.java      → tabla de libros, CRUD y reservas
+├── Servicio.java             → lógica de negocio de libros
+├── ServicioCliente.java      → lógica de negocio de usuarios
+└── modelo/
+    ├── Libro.java             → entidad → tabla libros
+    ├── Usuario.java           → entidad → tabla usuarios
+    ├── LibroRepository.java
+    └── UsuarioRepository.java
+```
 
----
+## Integrantes
 
-## Instrucciones de Instalación y Ejecución
+- Moncayo Montalvo Haziel
+- Torres Lema Selena Alexandra
+- Ortiz Mena Angel Joel
 
-1. Clonar el repositorio localmente.
-2. Verificar la instalación activa del servidor MySQL y ejecutar el script de base de datos provisto.
-3. Configurar el archivo application.properties con los parámetros correspondientes de la conexión local a MySQL:
-   spring.datasource.url=jdbc:mysql://localhost:3306/libreria?useSSL=false&serverTimezone=UTC
-   spring.datasource.username=root
-   spring.datasource.password=tu_contrasenia
-   spring.jpa.hibernate.ddl-auto=update
-4. Ejecutar la clase Launcher.java desde el entorno de desarrollo preferido.
-
----
-
-## Integrantes del Proyecto
-
-* Moncayo Montalvo Haziel[cite: 1]
-* Torres Lema Selena Alexandra[cite: 1]
-* Ortiz Mena Angel Joel[cite: 1]
-
-Escuela Politécnica Nacional (EPN)
-Escuela de Formación de Tecnólogos (ESFOT)[cite: 1]
+**Escuela Politécnica Nacional (EPN) — ESFOT**
