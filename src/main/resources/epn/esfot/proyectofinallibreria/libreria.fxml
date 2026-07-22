@@ -11,20 +11,25 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="574.0" prefWidth="761.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="epn.esfot.proyectofinallibreria.LibroController">
+<?import java.net.URL?>
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="574.0" prefWidth="761.0" xmlns="http://javafx.com/javafx/26"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="epn.esfot.proyectofinallibreria.LibroController"
+      stylesheets="@estilos.css">
+
    <children>
       <TableView fx:id="tblLibros" layoutX="29.0" layoutY="246.0" prefHeight="212.0" prefWidth="713.0">
-        <columns>
-          <TableColumn fx:id="colId" prefWidth="44.800048828125" text="ID" />
-          <TableColumn fx:id="colTitulo" prefWidth="88.79998779296875" text="TÍTULO" />
+         <columns>
+            <TableColumn fx:id="colId" prefWidth="44.800048828125" text="ID" />
+            <TableColumn fx:id="colTitulo" prefWidth="88.79998779296875" text="TÍTULO" />
             <TableColumn fx:id="colAutor" text="AUTOR" />
             <TableColumn fx:id="colEditorial" prefWidth="83.20001220703125" text="EDITORIAL" />
             <TableColumn fx:id="colAnio" prefWidth="69.5999755859375" text="AÑO PUBLICACIÓN" />
             <TableColumn fx:id="colPaginas" prefWidth="83.20001220703125" text="NUM PÁGINAS" />
-            <TableColumn fx:id="colDisponibilidad" prefWidth="78.4000244140625" text="DISPONIBILIDAD" />
             <TableColumn fx:id="colFormato" prefWidth="81.5999755859375" text="FORMATO" />
             <TableColumn fx:id="colCategoria" prefWidth="111.199951171875" text="CATEGORÍA" />
-        </columns>
+            <TableColumn fx:id="colUsuario" prefWidth="75.0" text="USUARIO" />
+         </columns>
       </TableView>
       <Label layoutX="285.0" layoutY="14.0" text="Gestión de Librería ">
          <font>
@@ -72,13 +77,13 @@
          </font>
       </Label>
       <ComboBox fx:id="cmbFormat" layoutX="146.0" layoutY="194.0" prefHeight="25.0" prefWidth="149.0" />
-      <Button fx:id="btnMostrar" layoutX="485.0" layoutY="476.0" mnemonicParsing="false" text="👁 MOSTRAR" onAction="#listarTodos" />
-      <Button fx:id="btnLimpiar" layoutX="596.0" layoutY="476.0" mnemonicParsing="false" text="✨ LIMPIAR" onAction="#limpiar" />
-      <Button fx:id="btnActualizar" layoutX="256.0" layoutY="476.0" mnemonicParsing="false" text="🔄 ACTUALIZAR" onAction="#actualizarLibro"/>
-      <Button fx:id="btnEliminar" layoutX="385.0" layoutY="476.0" mnemonicParsing="false" text="🗑 ELIMINAR" onAction="#eliminarLibro" />
-      <Button fx:id="btnAgregar" layoutX="137.0" layoutY="476.0" mnemonicParsing="false" text="➕ AGREGAR" onAction="#crearLibro" />
-      <Button fx:id="btnRergresar" layoutX="32.0" layoutY="527.0" mnemonicParsing="false" text="⬅ REGRESAR" />
-      <Button fx:id="btnBuscar" layoutX="670.0" layoutY="61.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="72.0" text="🔍BUSCAR" onAction="#buscarTitulo" />
+      <Button fx:id="btnMostrar" styleClass="button,btnMostrar" layoutX="528.0" layoutY="476.0" mnemonicParsing="false" onAction="#listarTodos" text="👁 MOSTRAR" />
+      <Button fx:id="btnLimpiar" styleClass="button,btnLimpiar" layoutX="627.0" layoutY="476.0" mnemonicParsing="false" onAction="#limpiar" text="✨ LIMPIAR" />
+      <Button fx:id="btnActualizar" styleClass="button,btnActualizar" layoutX="171.0" layoutY="476.0" mnemonicParsing="false" onAction="#actualizarLibro" text="🔄 ACTUALIZAR" />
+      <Button fx:id="btnEliminar" styleClass="button,btnEliminar" layoutX="285.0" layoutY="476.0" mnemonicParsing="false" onAction="#eliminarLibro" text="🗑 ELIMINAR" />
+      <Button fx:id="btnAgregar" styleClass="button,btnAgregar" layoutX="77.0" layoutY="476.0" mnemonicParsing="false" onAction="#crearLibro" text="➕ AGREGAR" />
+      <Button fx:id="btnRegresar" styleClass="button,btnRegresar" layoutX="32.0" layoutY="527.0" mnemonicParsing="false" onAction="#regresar" text="⬅ REGRESAR" />
+      <Button fx:id="btnBuscar" styleClass="button,btnBuscar" layoutX="670.0" layoutY="61.0" mnemonicParsing="false" onAction="#buscarTitulo" prefHeight="20.0" prefWidth="72.0" text="🔍BUSCAR" />
       <TextField fx:id="txtTituloBuscado" layoutX="584.0" layoutY="61.0" prefHeight="25.0" prefWidth="72.0" />
       <TextField fx:id="txtTitle" layoutX="138.0" layoutY="82.0" prefHeight="25.0" prefWidth="157.0" />
       <TextField fx:id="txtAutor" layoutX="138.0" layoutY="118.0" prefHeight="25.0" prefWidth="157.0" />
@@ -92,5 +97,6 @@
       </Label>
       <ComboBox fx:id="cmbCategory" layoutX="414.0" layoutY="194.0" prefHeight="25.0" prefWidth="126.0" />
       <Accordion />
+      <Button fx:id="btnReservar" styleClass="button,btnReservar" layoutX="436.0" layoutY="476.0" mnemonicParsing="false" onAction="#reservar" text="⭐RESERVAR" />
    </children>
 </Pane>

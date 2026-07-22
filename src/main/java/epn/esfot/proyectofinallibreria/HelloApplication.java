@@ -20,7 +20,7 @@ public class HelloApplication extends Application {
     public void start(Stage stage) throws IOException {
     FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
     loader.setControllerFactory(context::getBean);
-    Scene scene = new Scene(loader.load(), 500, 500);
+    Scene scene = new Scene(loader.load(), 600, 470);
     stage.setTitle("Inicio!");
     stage.setScene(scene);
     stage.show();

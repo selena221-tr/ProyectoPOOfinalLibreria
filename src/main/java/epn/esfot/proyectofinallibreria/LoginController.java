@@ -1,8 +1,6 @@
 package epn.esfot.proyectofinallibreria;
 
-import epn.esfot.proyectofinallibreria.modelo.Cliente;
-import epn.esfot.proyectofinallibreria.modelo.ClienteRepository;
-import epn.esfot.proyectofinallibreria.modelo.LibroRepository;
+import epn.esfot.proyectofinallibreria.modelo.Usuario;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -32,12 +30,14 @@ public class LoginController {
   @FXML Button btnRegistrarse;
   @FXML Button btnLogin;
 
+  public static Usuario usuarioregistrado= new Usuario();
+
+
   @FXML
   public void initialize() {
     cmbRol.setItems(FXCollections.observableArrayList(
       "Administrador",
-      "Cliente",
-      "Invitado"
+      "Cliente"
     ));
   }
   public  void mostrarAlerta(Alert.AlertType alert, String titulo, String mensaje ){
@@ -54,49 +54,63 @@ public class LoginController {
     cmbRol.setValue(null);
   }
 
-  public void validar() {
-
-    if (txtUser.getText().isEmpty() || pwsPassword.getText().isEmpty() || cmbRol.getValue() == null) {
-      mostrarAlerta(Alert.AlertType.ERROR, "Credenciales inválidas", "Debe llenar todos los campos para continuar");
-      limpiar();
-      return;
-    }
-
-    Cliente cEncontrado = servicioCliente.buscarNombre(txtUser.getText());
-
-        if (cEncontrado != null
-            && BCrypt.checkpw(pwsPassword.getText(), cEncontrado.getContrasenia())
-            && cEncontrado.getRol().equalsIgnoreCase(cmbRol.getValue())
-        ){
-          mostrarAlerta(Alert.AlertType.INFORMATION, "Correcto", "Inicio de sesión exitoso");
-          try {
-            FXMLLoader loader = new FXMLLoader(
+  public  void abrirVentana(){
+    try {
+      FXMLLoader loader = new FXMLLoader(
               getClass().getResource("libreria.fxml")
-            );
-            loader.setControllerFactory(context::getBean);
-            Parent root = loader.load();
+      );
+      loader.setControllerFactory(context::getBean);
+      Parent root = loader.load();
 
-            Stage stage = new Stage();
-            stage.setTitle("Gestión de Libros");
-            stage.setScene(new Scene(root));
-            stage.show();
+      Stage stage = new Stage();
+      stage.setTitle("Gestión de Libros");
+      stage.setScene(new Scene(root));
+      stage.show();
 
-            Stage ventanaActual = (Stage) txtUser.getScene().getWindow();
-            ventanaActual.close();
+      Stage ventanaActual = (Stage) txtUser.getScene().getWindow();
+      ventanaActual.close();
 
-          } catch (IOException e) {
-            e.printStackTrace();
-          }
-        } else {
-          mostrarAlerta(Alert.AlertType.ERROR, "Error", "Contraseña o rol incorrectos");
-        }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void iniciarSesionInvitado(){
+      mostrarAlerta(Alert.AlertType.INFORMATION, "Login", "Usted está ingresando al sistema como invitado");
+      usuarioregistrado = new Usuario();
+      usuarioregistrado.setRol("Invitado");
+      usuarioregistrado.setNombre("Invitado");
+      abrirVentana();
+  }
+
+  public void validar() {
+      if (txtUser.getText().isEmpty() || pwsPassword.getText().isEmpty() || cmbRol.getValue() == null) {
+        mostrarAlerta(Alert.AlertType.ERROR, "Credenciales inválidas", "Debe llenar todos los campos para continuar");
+        limpiar();
+        return;
+      }
+
+      Usuario cEncontrado = servicioCliente.buscarNombre(txtUser.getText());
+
+      if (cEncontrado != null
+              && BCrypt.checkpw(pwsPassword.getText(), cEncontrado.getContrasenia())
+              && cEncontrado.getRol().equalsIgnoreCase(cmbRol.getValue())
+      ) {
+        usuarioregistrado= cEncontrado;
+
+        mostrarAlerta(Alert.AlertType.INFORMATION, "Correcto", "Inicio de sesión exitoso");
+        abrirVentana();
+      } else {
+        mostrarAlerta(Alert.AlertType.ERROR, "Error", "Contraseña o rol incorrectos");
+      }
+
   }
 
   @FXML
   public void registrarUsuario(){
-    if (!txtUser.getText().isEmpty() && !pwsPassword.getText().isEmpty() && !cmbRol.getValue().isEmpty()) {
+    if (!txtUser.getText().isEmpty() && !pwsPassword.getText().isEmpty() && !(cmbRol.getValue() == null)) {
       if (!cmbRol.getValue().equals("Administrador")){
-        Cliente cI = new Cliente(
+        Usuario cI = new Usuario(
                 txtUser.getText(),
                 BCrypt.hashpw(pwsPassword.getText(), BCrypt.gensalt()),
                 cmbRol.getValue()

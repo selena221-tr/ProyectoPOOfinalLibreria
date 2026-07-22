@@ -9,38 +9,64 @@
 <?import javafx.scene.text.Font?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      prefHeight="456.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="epn.esfot.proyectofinallibreria.LoginController">
+      prefHeight="480.0" prefWidth="594.0"
+      stylesheets="@estilos.css"
+      xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="epn.esfot.proyectofinallibreria.LoginController">
   <children>
-    <Label layoutX="173.0" layoutY="38.0" text="BIENVENIDO ">
+
+    <!-- TÍTULO centrado: pane 594px, texto ~264px → x = (594-264)/2 = 165 ajustado -->
+    <Label layoutX="107.0" layoutY="30.0" prefWidth="380.0" alignment="CENTER"
+           text="BIENVENIDO">
       <font>
         <Font name="Bell MT" size="43.0" />
       </font>
     </Label>
-    <Label layoutX="114.0" layoutY="164.0" prefHeight="26.0" prefWidth="141.0" text="Nombre de usuario">
-      <font>
-        <Font name="Book Antiqua" size="15.0" />
-      </font>
-    </Label>
-    <Label layoutX="114.0" layoutY="215.0" prefHeight="26.0" prefWidth="141.0" text="Contraseña: ">
-      <font>
-        <Font name="Book Antiqua" size="15.0" />
-      </font>
-    </Label>
-    <Label layoutX="114.0" layoutY="266.0" prefHeight="26.0" prefWidth="141.0" text="Rol: ">
-      <font>
-        <Font name="Book Antiqua" size="15.0" />
-      </font>
-    </Label>
-    <ComboBox fx:id="cmbRol" layoutX="300.0" layoutY="267.0" prefWidth="150.0" />
-    <TextField fx:id="txtUser" layoutX="301.0" layoutY="165.0" />
-    <PasswordField fx:id="pwsPassword" layoutX="301.0" layoutY="216.0" />
-    <Button fx:id="btnLogin" layoutX="185.0" layoutY="346.0" mnemonicParsing="false" onAction="#validar" text="Iniciar Sesión" />
-    <Label layoutX="190.0" layoutY="106.0" text="Sistema de Gestión de librería" textOverrun="CLIP">
+
+    <Label layoutX="117.0" layoutY="90.0" prefWidth="360.0" alignment="CENTER"
+           text="Sistema de Gestión de librería" textOverrun="CLIP">
       <font>
         <Font name="Calibri Light" size="18.0" />
       </font>
     </Label>
-      <Button fx:id="btnRegistrarse" layoutX="331.0" layoutY="346.0" mnemonicParsing="false" text="Registrarse" onAction="#registrarUsuario"/>
+
+    <!-- FORMULARIO -->
+    <Label layoutX="114.0" layoutY="160.0" prefHeight="26.0" prefWidth="160.0"
+           text="Nombre de usuario">
+      <font><Font name="Book Antiqua" size="15.0" /></font>
+    </Label>
+    <TextField fx:id="txtUser" layoutX="290.0" layoutY="158.0" prefWidth="180.0" prefHeight="28.0"/>
+
+    <Label layoutX="114.0" layoutY="210.0" prefHeight="26.0" prefWidth="160.0"
+           text="Contraseña:">
+      <font><Font name="Book Antiqua" size="15.0" /></font>
+    </Label>
+    <PasswordField fx:id="pwsPassword" layoutX="290.0" layoutY="208.0" prefWidth="180.0" prefHeight="28.0"/>
+
+    <Label layoutX="114.0" layoutY="260.0" prefHeight="26.0" prefWidth="160.0"
+           text="Rol:">
+      <font><Font name="Book Antiqua" size="15.0" /></font>
+    </Label>
+    <ComboBox fx:id="cmbRol" layoutX="290.0" layoutY="258.0" prefWidth="180.0" prefHeight="28.0"/>
+
+    <!-- BOTÓN LOGIN centrado -->
+    <Button fx:id="btnLogin" styleClass="button,btnLogin"
+            layoutX="207.0" layoutY="318.0" prefWidth="180.0" prefHeight="36.0"
+            mnemonicParsing="false" onAction="#validar" text="Iniciar Sesión" />
+
+    <!-- FILA INFERIOR: label + botones separados -->
+    <Label layoutX="60.0" layoutY="408.0" text="¿No tienes una cuenta?" />
+
+    <Button fx:id="btnRegistrarse" styleClass="button,btnRegistrarse"
+            layoutX="240.0" layoutY="400.0" prefHeight="30.0"
+            mnemonicParsing="false" onAction="#registrarUsuario" text="Registrarse" />
+
+    <Label layoutX="347.0" layoutY="408.0" text="o" />
+
+    <Button fx:id="btnSesionInvitado" styleClass="button,btnSesionInvitado"
+            layoutX="365.0" layoutY="400.0" prefHeight="30.0"
+            mnemonicParsing="false" onAction="#iniciarSesionInvitado"
+            text="Sesión como Invitado" />
+
   </children>
 </Pane>

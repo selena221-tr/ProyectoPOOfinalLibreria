@@ -1,0 +1,269 @@
+/* =========================================
+   ESTILO GENERAL
+   ========================================= */
+
+.root {
+    -fx-font-family: "Segoe UI";
+    -fx-background-color: #F3E5F5;
+}
+
+/* =========================================
+   PANELES
+   ========================================= */
+
+.anchor-pane, .pane {
+    -fx-background-color: linear-gradient(
+            to bottom right,
+            #EDE7F6,
+            #D1C4E9
+    );
+}
+
+/* =========================================
+   LABELS
+   ========================================= */
+
+.label {
+    -fx-text-fill: #4A148C;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+/* =========================================
+   CAMPOS DE TEXTO
+   ========================================= */
+
+.text-field,
+.password-field {
+    -fx-background-color: white;
+    -fx-border-color: #9575CD;
+    -fx-border-width: 1.5px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 4px 8px;
+    -fx-text-fill: #311B92;
+}
+
+.text-field:focused,
+.password-field:focused {
+    -fx-border-color: #6A1B9A;
+    -fx-border-width: 2px;
+}
+
+/* =========================================
+   COMBO BOX
+   ========================================= */
+
+.combo-box {
+    -fx-background-color: white;
+    -fx-border-color: #9575CD;
+    -fx-border-width: 1.5px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+}
+
+.combo-box:focused {
+    -fx-border-color: #6A1B9A;
+}
+
+.combo-box-popup .list-cell:hover {
+    -fx-background-color: #EDE7F6;
+}
+
+.combo-box-popup .list-cell:selected {
+    -fx-background-color: #CE93D8;
+    -fx-text-fill: white;
+}
+
+/* =========================================
+   TABLA
+   ========================================= */
+
+.table-view {
+    -fx-background-color: white;
+    -fx-border-color: #9575CD;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #6A1B9A;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+}
+
+.table-row-cell {
+    -fx-background-color: white;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #FAF5FF;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: #EDE7F6;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #CE93D8;
+}
+
+.table-row-cell:selected .text {
+    -fx-fill: white;
+}
+
+/* =========================================
+   BOTÓN BASE — sin cambiar tamaño
+   ========================================= */
+
+.button {
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+    /* SIN padding ni min/max-width para no romper posiciones fijas */
+}
+
+.button:hover {
+    -fx-opacity: 0.88;
+}
+
+.button:pressed {
+    -fx-opacity: 0.75;
+}
+
+/* =========================================
+   AGREGAR  →  VERDE
+   ========================================= */
+
+.btnAgregar {
+    -fx-background-color: #43A047;
+}
+.btnAgregar:hover { -fx-background-color: #2E7D32; }
+
+/* =========================================
+   ACTUALIZAR  →  AZUL
+   ========================================= */
+
+.btnActualizar {
+    -fx-background-color: #1E88E5;
+}
+.btnActualizar:hover { -fx-background-color: #1565C0; }
+
+/* =========================================
+   ELIMINAR  →  ROJO
+   ========================================= */
+
+.btnEliminar {
+    -fx-background-color: #E53935;
+}
+.btnEliminar:hover { -fx-background-color: #B71C1C; }
+
+/* =========================================
+   BUSCAR  →  MORADO OSCURO
+   ========================================= */
+
+.btnBuscar {
+    -fx-background-color: #5E35B1;
+}
+.btnBuscar:hover { -fx-background-color: #4527A0; }
+
+/* =========================================
+   RESERVAR  →  MORADO MEDIO
+   ========================================= */
+
+.btnReservar {
+    -fx-background-color: #8E24AA;
+}
+.btnReservar:hover { -fx-background-color: #6A1B9A; }
+
+/* =========================================
+   MOSTRAR  →  ÍNDIGO
+   ========================================= */
+
+.btnMostrar {
+    -fx-background-color: #3949AB;
+}
+.btnMostrar:hover { -fx-background-color: #283593; }
+
+/* =========================================
+   LIMPIAR  →  GRIS
+   ========================================= */
+
+.btnLimpiar {
+    -fx-background-color: #78909C;
+}
+.btnLimpiar:hover { -fx-background-color: #546E7A; }
+
+/* =========================================
+   REGRESAR  →  GRIS OSCURO
+   ========================================= */
+
+.btnRegresar {
+    -fx-background-color: #616161;
+}
+.btnRegresar:hover { -fx-background-color: #424242; }
+
+/* =========================================
+   LOGIN  →  MORADO PRINCIPAL
+   ========================================= */
+
+.btnLogin {
+    -fx-background-color: #7B1FA2;
+}
+.btnLogin:hover { -fx-background-color: #4A148C; }
+
+/* =========================================
+   REGISTRARSE  →  LILA
+   ========================================= */
+
+.btnRegistrarse {
+    -fx-background-color: #AB47BC;
+}
+.btnRegistrarse:hover { -fx-background-color: #8E24AA; }
+
+/* =========================================
+   SESIÓN INVITADO  →  LILA MEDIO
+   ========================================= */
+
+.btnSesionInvitado {
+    -fx-background-color: #9575CD;
+}
+.btnSesionInvitado:hover { -fx-background-color: #7E57C2; }
+
+/* =========================================
+   RADIO BUTTON
+   ========================================= */
+
+.radio-button {
+    -fx-text-fill: #4A148C;
+    -fx-font-weight: bold;
+}
+
+.radio-button:selected .radio {
+    -fx-background-color: #8E24AA;
+    -fx-border-color: #6A1B9A;
+}
+
+/* =========================================
+   SCROLL BAR
+   ========================================= */
+
+.scroll-bar .thumb {
+    -fx-background-color: #CE93D8;
+    -fx-background-radius: 6px;
+}
+
+.scroll-bar .track {
+    -fx-background-color: #EDE7F6;
+}

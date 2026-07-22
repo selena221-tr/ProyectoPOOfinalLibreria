@@ -1,16 +1,26 @@
 package epn.esfot.proyectofinallibreria;
 
 import epn.esfot.proyectofinallibreria.modelo.Libro;
+import epn.esfot.proyectofinallibreria.modelo.Usuario;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import org.springframework.context.ApplicationContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import static epn.esfot.proyectofinallibreria.LoginController.usuarioregistrado;
 
 @Controller
 public class LibroController {
@@ -30,9 +40,14 @@ public class LibroController {
   @FXML private TableColumn<Libro, String> colEditorial;
   @FXML private TableColumn<Libro, Integer> colAnio;
   @FXML private TableColumn<Libro, Integer> colPaginas;
-  @FXML private TableColumn<Libro, Boolean> colDisponibilidad;
   @FXML private TableColumn<Libro, String> colFormato;
   @FXML private TableColumn<Libro, String> colCategoria;
+  @FXML private TableColumn<Libro, String> colUsuario;
+  @FXML private Button btnActualizar;
+  @FXML private Button btnEliminar;
+  @FXML private Button btnAgregar;
+  @FXML private Button btnReservar;
+  @FXML private TextField txtCliente;
 
   @Autowired
   private Servicio servicio;
@@ -44,6 +59,41 @@ public class LibroController {
 
   @FXML
   public void initialize(){
+
+    if (usuarioregistrado.getRol().equals("Invitado")){
+        btnEliminar.setVisible(false);
+        btnActualizar.setVisible(false);
+        btnReservar.setVisible(false);
+        btnAgregar.setVisible(false);
+        txtPag.setDisable(true);
+        txtYear.setDisable(true);
+        txtAutor.setDisable(true);
+        txtEditorial.setDisable(true);
+        txtTitle.setDisable(true);
+        rbDisponible.setDisable(true);
+        cmbFormat.setDisable(true);
+        cmbCategory.setDisable(true);
+        colUsuario.setVisible(false);
+    }
+
+    if(usuarioregistrado.getRol().equals("Cliente")){
+      btnEliminar.setVisible(false);
+      btnActualizar.setVisible(false);
+      btnAgregar.setVisible(false);
+      txtPag.setDisable(true);
+      txtYear.setDisable(true);
+      txtAutor.setDisable(true);
+      txtEditorial.setDisable(true);
+      txtTitle.setDisable(true);
+      rbDisponible.setDisable(true);
+      cmbFormat.setDisable(true);
+      cmbCategory.setDisable(true);
+      colUsuario.setVisible(false);
+    }
+
+    if(usuarioregistrado.getRol().equals("Administrador")){
+      btnReservar.setVisible(false);
+    }
 
     cmbCategory.setItems(FXCollections.observableArrayList(
       "Novela",
@@ -70,18 +120,14 @@ public class LibroController {
     colEditorial.setCellValueFactory(new PropertyValueFactory<>("editorial"));
     colAnio.setCellValueFactory(new PropertyValueFactory<>("anio_publicacion"));
     colPaginas.setCellValueFactory(new PropertyValueFactory<>("numero_paginas"));
-    colDisponibilidad.setCellValueFactory(new PropertyValueFactory<>("disponibilidad"));
-    colDisponibilidad.setCellFactory(column -> new TableCell<Libro, Boolean>() {
-      @Override
-      protected void updateItem(Boolean item, boolean empty) {
-        super.updateItem(item, empty);
-
-        if (empty || item == null) {
-          setText(null);
-        } else {
-          setText(item ? "Disponible" : "No disponible");
-        }
+    colUsuario.setCellValueFactory(data -> {
+      Libro libro = data.getValue();
+      if(libro.getUsuario()!=null){
+        return new SimpleStringProperty(
+                libro.getUsuario().getNombre()
+        );
       }
+      return new SimpleStringProperty("Disponible");
     });
     colFormato.setCellValueFactory(new PropertyValueFactory<>("formato"));
     colCategoria.setCellValueFactory(new PropertyValueFactory<>("categoria"));
@@ -99,7 +145,7 @@ public class LibroController {
         txtPag.setText(String.valueOf(newSel.getNumero_paginas()));
         cmbCategory.setValue(newSel.getCategoria());
         cmbFormat.setValue(newSel.getFormato());
-        rbDisponible.setSelected(newSel.isDisponibilidad());
+        rbDisponible.setSelected(newSel.getUsuario() == null);
       }
     });
   }
@@ -113,7 +159,7 @@ public class LibroController {
     txtPag.setText(String.valueOf(l.getNumero_paginas()));
     cmbCategory.setValue(l.getCategoria());
     cmbFormat.setValue(l.getFormato());
-    rbDisponible.setSelected(l.isDisponibilidad());
+    rbDisponible.setSelected(l.getUsuario() == null);
   }
 
   public  void mostrarAlerta(Alert.AlertType alert, String titulo, String mensaje ){
@@ -142,18 +188,24 @@ public class LibroController {
     cmbCategory.setValue(null);
     cmbFormat.setValue(null);
     rbDisponible.setSelected(false);
+    txtTituloBuscado.setText("");
   }
 
   @FXML
   public void listarTodos(){
-      tblLibros.setItems(FXCollections.observableArrayList(servicio.listarTodos()));
+    tblLibros.setItems(FXCollections.observableArrayList(servicio.listarTodos()));
+    limpiar();
   }
 
   @FXML
   public void buscarTitulo(){
     String t= txtTituloBuscado.getText();
-    servicio.buscarTitulo(t)
-      .ifPresent(this::cargarLibroEnFormulario);
+    servicio.buscarTitulo(t).ifPresent(this::cargarLibroEnFormulario);
+    tblLibros.getItems().clear();
+    servicio.buscarTitulo(t).ifPresent(libro -> {
+      tblLibros.getItems().add(libro);
+      rbDisponible.setSelected(libro.getUsuario() == null);
+    });
   }
 
   @FXML
@@ -170,14 +222,13 @@ public class LibroController {
       Integer pag = Integer.parseInt(txtPag.getText());
       String categoria = cmbCategory.getValue().toString();
       String formato = cmbFormat.getValue().toString();
-      Boolean disponible = rbDisponible.isSelected();
 
       if(servicio.buscarTitulo(titulo).isPresent()){
         mostrarAlerta(Alert.AlertType.WARNING, "Datos existentes", "Este libro ya existe");
         return;
       }
 
-      Libro libro = new Libro(titulo, autor, editorial, formato, anio, pag, disponible, categoria);
+      Libro libro = new Libro(titulo, autor, editorial, formato, anio, pag,  categoria);
 
       servicio.insertar(libro);
 
@@ -203,6 +254,7 @@ public class LibroController {
   public void actualizarLibro(){
     if (libroSeleccionado == null) {
       mostrarAlerta(Alert.AlertType.WARNING, "Datos Incompletos", "Debe seleccionar un libro para actualizar");
+      return;
     }
     libroSeleccionado.setTitulo(txtTitle.getText());
     libroSeleccionado.setAutor(txtAutor.getText());
@@ -211,7 +263,10 @@ public class LibroController {
     libroSeleccionado.setNumero_paginas(Integer.parseInt(txtPag.getText()));
     libroSeleccionado.setCategoria(cmbCategory.getValue().toString());
     libroSeleccionado.setFormato(cmbFormat.getValue().toString());
-    libroSeleccionado.setDisponibilidad(rbDisponible.isSelected());
+    if(rbDisponible.isSelected()){
+      libroSeleccionado.setUsuario(null);
+    }
+
     if (confirmar("Actualizar", "¿Está seguro de actualizar este libro?")) {
       servicio.actualizar(libroSeleccionado);
       mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "Libro actualizado correctamente.");
@@ -236,5 +291,41 @@ public class LibroController {
     }
 
   }
+
+  @FXML
+  public void regresar(){
+    try {
+      FXMLLoader loader = new FXMLLoader(
+              getClass().getResource("login.fxml")
+      );
+      loader.setControllerFactory(context::getBean);
+      Parent root = loader.load();
+
+      Stage stage = new Stage();
+      stage.setTitle("Gestión de Libros");
+      stage.setScene(new Scene(root));
+      stage.show();
+
+      Stage ventanaActual = (Stage) txtTitle.getScene().getWindow();
+      ventanaActual.close();
+
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+   public void reservar(){
+     if(libroSeleccionado == null){
+       mostrarAlerta(Alert.AlertType.WARNING, "Reserva", "Seleccione un libro");
+       return;
+     }
+     if(libroSeleccionado.getUsuario()!=null){
+       mostrarAlerta(Alert.AlertType.WARNING, "Reserva", "El libro ya está reservado");
+       return;
+     }
+     libroSeleccionado.setUsuario(usuarioregistrado);
+     servicio.actualizar(libroSeleccionado);
+     tblLibros.setItems(FXCollections.observableArrayList(servicio.listarTodos()));
+     tblLibros.refresh();
+   }
 
 }

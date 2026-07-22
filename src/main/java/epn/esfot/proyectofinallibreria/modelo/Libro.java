@@ -27,16 +27,19 @@ public class Libro {
   @Column( nullable = false)
   private int numero_paginas;
 
-  @Column(nullable = false)
-  private boolean disponibilidad;
 
   @Column(nullable = false, length = 100)
   private String categoria;
 
+  @ManyToOne
+  @JoinColumn(name="usuario_id")
+  private Usuario usuario;
+
+
   public Libro() {
   }
 
-  public Libro(Integer id, String titulo, String autor, String editorial, String formato, int anio_publicacion, int numero_paginas, boolean disponibilidad, String categoria) {
+  public Libro(Integer id, String titulo, String autor, String editorial, String formato, int anio_publicacion, int numero_paginas, String categoria) {
     this.id = id;
     this.titulo = titulo;
     this.autor = autor;
@@ -44,18 +47,16 @@ public class Libro {
     this.formato = formato;
     this.anio_publicacion = anio_publicacion;
     this.numero_paginas = numero_paginas;
-    this.disponibilidad = disponibilidad;
     this.categoria = categoria;
   }
 
-  public Libro(String titulo, String autor, String editorial, String formato, int anio_publicacion, int numero_paginas, boolean disponibilidad, String categoria) {
+  public Libro(String titulo, String autor, String editorial, String formato, int anio_publicacion, int numero_paginas, String categoria) {
     this.titulo = titulo;
     this.autor = autor;
     this.editorial = editorial;
     this.formato = formato;
     this.anio_publicacion = anio_publicacion;
     this.numero_paginas = numero_paginas;
-    this.disponibilidad = disponibilidad;
     this.categoria = categoria;
   }
 
@@ -123,12 +124,13 @@ public class Libro {
     this.numero_paginas = numero_paginas;
   }
 
-  public boolean isDisponibilidad() {
-    return disponibilidad;
+
+  public Usuario getUsuario() {
+    return usuario;
   }
 
-  public void setDisponibilidad(boolean disponibilidad) {
-    this.disponibilidad = disponibilidad;
+  public void setUsuario(Usuario usuario) {
+    this.usuario = usuario;
   }
 
   @Override
@@ -142,7 +144,6 @@ public class Libro {
       ", categoria='" + categoria + '\'' +
       ", anioPublicacion=" + anio_publicacion +
       ", numeroPaginas=" + numero_paginas +
-      ", disponibilidad=" + disponibilidad +
       '}';
   }
 }
